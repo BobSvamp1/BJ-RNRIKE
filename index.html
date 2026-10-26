@@ -430,8 +430,6 @@ const GAMES=[
   rules:['Tre personer ur gänget, kanske du själv.','Gissa deras promille i spelet.','Ju närmare, desto fler poäng. Max 10 per person.'],higher:true,fmt:v=>v+' p',bot:()=>5+Math.floor(Math.random()*22)},
  {key:'alko',name:'Alkotestet',diff:'red',sensor:'mic',where:'Parkeringen, alkolåset i bilen',sub:'Blås i mobilen. Hårt och länge.',
   rules:['Mobilen ber om mikrofonen. Tillåt.','Blås i mikrofonen i sex sekunder.','Ju hårdare och längre, desto fler poäng.','Utan mikrofon: håll knappen.'],higher:true,fmt:v=>v+' p',bot:()=>15+Math.floor(Math.random()*80)},
- {key:'vral',name:'Afterski-vrålet',diff:'black',sensor:'mic',where:'Mitt på dansgolvet',sub:'Vem kan vråla högst? Glasen på baren spricker.',
-  rules:['Tre försök, två sekunder var.','VRÅLA i mobilen när det står VRÅÅÅL.','Högsta värdet räknas.','Utan mikrofon: hamra på knappen.'],higher:true,fmt:v=>v+' dB',bot:()=>70+Math.floor(Math.random()*55)},
  {key:'skaka',name:'Champagnen',diff:'red',sensor:'motion',where:'Podiet, någon fyller år',sub:'Skaka flaskan. Korken ska flyga längst.',
   rules:['Håll i mobilen ordentligt!','Skaka den så mycket du kan i åtta sekunder.','Fler skak = längre korkflykt.','Utan rörelsesensor: hamra knappen.'],higher:true,fmt:v=>v+' skak',bot:()=>20+Math.floor(Math.random()*70)},
  {key:'bricka',name:'Brickan',diff:'blue',sensor:'motion',where:'Från baren till bordet',sub:'Bär sex shots på en bricka. Mobilen är brickan.',
@@ -441,7 +439,19 @@ const GAMES=[
  {key:'foto',name:'Fotojakten',diff:'green',sensor:'cam',where:'Hela stugan',sub:'Hitta saker i rätt färg och håll upp dem för kameran.',
   rules:['Bakre kameran letar i mitten av bilden.','Hitta något i den färg som efterfrågas och håll det framför kameran.','Fyra uppdrag på 45 sekunder.','Utan kamera: gänget dömer.'],higher:true,fmt:v=>v+' p',bot:()=>10+Math.floor(Math.random()*55)},
  {key:'botten',name:'Botten upp',diff:'blue',sensor:'motion',where:'Bordet, glasen höjda',sub:'Mobilen är ditt glas. Botten upp på SKÅL!',
-  rules:['Håll mobilen upprätt som ett glas.','När det står SKÅL!: tippa bakåt som när man dricker.','Tippar du på fel ord är det tjuvdrickning.','Snabbast snitt på tre skålar vinner.'],higher:false,fmt:v=>v+' ms',bot:()=>350+Math.floor(Math.random()*700)}
+  rules:['Håll mobilen upprätt som ett glas.','När det står SKÅL!: tippa bakåt som när man dricker.','Tippar du på fel ord är det tjuvdrickning.','Snabbast snitt på tre skålar vinner.'],higher:false,fmt:v=>v+' ms',bot:()=>350+Math.floor(Math.random()*700)},
+ {key:'snurr',name:'Snurran',diff:'black',sensor:'motion',where:'Mitt på dansgolvet',sub:'Snurra fem varv med mobilen. Sen ska du träffa shotsen.',
+  rules:['Håll mobilen framför dig och snurra runt fem varv.','Direkt efteråt: tryck på fem shots på skärmen.','Miss = +1 sekund.','Snabbast totaltid vinner.'],higher:false,fmt:v=>v>=40000?'Ramlade':(v/1000).toFixed(1).replace('.',',')+' s',bot:()=>9000+Math.floor(Math.random()*14000)},
+ {key:'hoppa',name:'Après-hoppet',diff:'red',sensor:'motion',where:'Afterskin, "Hoppa hoppa" spelas',sub:'Hoppa så många gånger du kan på tio sekunder.',
+  rules:['Håll mobilen mot bröstet.','Hoppa på riktigt. Mobilen räknar hoppen.','Tio sekunder. Flest hopp vinner.'],higher:true,fmt:v=>v+' hopp',bot:()=>8+Math.floor(Math.random()*22)},
+ {key:'gom',name:'Göm ölen',diff:'red',sensor:'cam',where:'Pisten, ingen medhavd alkohol',sub:'Drick när vakten inte tittar. Göm ölen när han vänder sig.',
+  rules:['Selfiekameran är din öl.','Täck kameran med fingret = ölen är gömd.','Visa kameran när han inte tittar = du dricker.','Tagen = −5. Flest klunkar vinner.'],higher:true,fmt:v=>v+' klunkar',bot:()=>15+Math.floor(Math.random()*35)},
+ {key:'hitta',name:'Hitta stugan',diff:'blue',sensor:'motion',where:'Byn, kl 03, kolsvart',sub:'Vänd dig runt med mobilen. Pipet säger om det är varmt eller kallt.',
+  rules:['Snurra runt med mobilen framför dig.','Pipet går fortare och ljusare när du pekar rätt.','Peka rätt en sekund så har du hittat.','Fyra ställen. Snabbast vinner.'],higher:false,fmt:v=>v>=60000?'Sov i en snödriva':(v/1000).toFixed(1).replace('.',',')+' s',bot:()=>12000+Math.floor(Math.random()*25000)},
+ {key:'lut',name:'Lutpisten',diff:'red',sensor:'motion',where:'Röd backe',sub:'Mobilen är dina skidor. Luta för att svänga.',
+  rules:['Håll mobilen som en ratt.','Luta vänster och höger för att åka mellan portarna.','Det går fortare och fortare.','25 sekunder. Flest portar vinner.'],higher:true,fmt:v=>v+' portar',bot:()=>12+Math.floor(Math.random()*24)},
+ {key:'steg',name:'Spring till liften',diff:'blue',sensor:'motion',where:'Backen, sista åket',sub:'Liften stänger. Spring på stället med mobilen.',
+  rules:['Håll mobilen i handen och spring på stället.','Mobilen räknar dina steg.','30 steg. Snabbast vinner.'],higher:false,fmt:v=>v>=30000?'Missade liften':(v/1000).toFixed(1).replace('.',',')+' s',bot:()=>7000+Math.floor(Math.random()*9000)}
 ];
 const TIMES=['10:47','13:20','15:30','17:10','19:45','22:30','01:15','02:40'];
 const TOTAL=7;
@@ -2512,9 +2522,9 @@ const SENS={
  async cam(video,facing){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('nocam');
   const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing||'user',width:{ideal:320},height:{ideal:240}},audio:false});
   video.srcObject=stream;video.muted=true;video.setAttribute('playsinline','');await video.play();return{stop(){stream.getTracks().forEach(t=>t.stop())}}},
- async motion(){const ask=async C=>{if(typeof C!=='undefined'&&typeof C.requestPermission==='function'){const r=await C.requestPermission();if(r!=='granted')throw new Error('denied')}};
-  await ask(window.DeviceMotionEvent);try{await ask(window.DeviceOrientationEvent)}catch(e){}
-  return new Promise((res,rej)=>{let got=false;const h=e=>{if(e.accelerationIncludingGravity&&e.accelerationIncludingGravity.x!=null){got=true;window.removeEventListener('devicemotion',h);res(true)}};window.addEventListener('devicemotion',h);setTimeout(()=>{if(!got){window.removeEventListener('devicemotion',h);rej(new Error('nomotion'))}},1200)})}
+ async motion(){const ask=async C=>{try{if(typeof C!=='undefined'&&typeof C.requestPermission==='function')await C.requestPermission()}catch(e){}};
+  await ask(window.DeviceMotionEvent);await ask(window.DeviceOrientationEvent);
+  return new Promise((res,rej)=>{let got=false;const h=e=>{if(e.accelerationIncludingGravity&&e.accelerationIncludingGravity.x!=null){got=true;window.removeEventListener('devicemotion',h);res(true)}};window.addEventListener('devicemotion',h);setTimeout(()=>{if(!got){window.removeEventListener('devicemotion',h);rej(new Error('nomotion'))}},1500)})}
 };
 function sensorNote(box,txt){box.prepend(el('div',{class:'sens-note',text:txt}))}
 
@@ -2541,38 +2551,6 @@ PLAY.alko=function(box,seed,pr,done){
   guy(c,{x:W*0.8,y:gy,s:sc,col:'#1d2a4a',hat:'#14181c',pom:'#f2c33b',flip:-1,aL:0.3,aR:1.2,mouth:s>0.5?'o':'flat',eyes:s>0.5?'wide':'o'});
   const mx=W*0.08,my=H*0.08,mw=W*0.84;c.fillStyle='rgba(255,255,255,.12)';rr(c,mx,my,mw,18,9);c.fill();c.fillStyle=s>0.6?'#58c487':s>0.25?'#f2c33b':'#d2412d';rr(c,mx,my,mw*s,18,9);c.fill();
   c.fillStyle='#eef3f7';c.font='700 12px "Barlow Condensed",sans-serif';c.textAlign='left';c.fillText('BLÅSKRAFT',mx,my+32);
- });
- return()=>{ended=true;if(mic)mic.stop();stop()};
-};
-
-/* --- Afterski-vrålet (mikrofon) --- */
-PLAY.vral=function(box,seed,pr,done){
- let mic=null,manual=false,taps=[],phase='ask',k=0,t=0,best=0,peak=0,lvl=0,ended=false,shatter=0;const glass=[];
- const ME=colorOf(myId());
- const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Afterski-vrålet'});
- const bEl=el('b',{text:'0 dB'}),kEl=el('b',{text:'1/3'}),fl=el('div',{class:'flash',text:'Tillåt mikrofonen. Sen VRÅLAR du.'});
- const btn=el('button',{class:'mash',text:'VRÅLA (hamra)',hidden:true});
- box.append(hud(['Försök',kEl],['Bäst',bEl]),cv,fl,btn);
- btn.addEventListener('pointerdown',e=>{e.preventDefault();taps.push(performance.now())});
- const begin=()=>{phase='count';t=0};
- SENS.mic().then(m=>{mic=m;begin()}).catch(()=>{manual=true;btn.hidden=false;sensorNote(box,'Ingen mikrofon. Hamra på knappen istället.');begin()});
- for(let i=0;i<7;i++)glass.push({x:0.1+i*0.12,broken:false});
- const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{shatter=Math.max(0,shatter-dt);
-  if(!ended){t+=dt;
-   let raw=0;if(manual){const now=performance.now();taps=taps.filter(x=>now-x<500);raw=Math.min(0.3,taps.length*0.022)}else if(mic)raw=mic.level();
-   lvl+=(raw-lvl)*Math.min(1,dt*15);const db=Math.round(Math.min(130,40+Math.max(0,Math.log10(Math.max(1e-4,lvl))+2.3)*42));
-   if(phase==='count'){fl.textContent=t<1?'3…':t<2?'2…':t<3?'1…':'';fl.className='flash';if(t>=3){phase='scream';t=0;peak=0;fl.textContent='VRÅÅÅÅL!!!';fl.className='flash hot'}}
-   else if(phase==='scream'){peak=Math.max(peak,db);glass.forEach(g=>{if(!g.broken&&peak>95+g.x*20){g.broken=true;shatter=0.3;SFX.splat()}});if(t>=2.2){best=Math.max(best,peak);bEl.textContent=best+' dB';fl.textContent=peak+' dB! '+(peak>115?'Glasen sprack!':peak>95?'Hela baren vände sig om':'Det där var en viskning');fl.className='flash '+(peak>95?'good':'bad');phase='rest';t=0}}
-   else if(phase==='rest'&&t>1.6){k++;if(k>=3){ended=true;if(mic)mic.stop();SFX.horn();setTimeout(()=>done(best),500)}else{kEl.textContent=(k+1)+'/3';phase='count';t=0;glass.forEach(g=>g.broken=false)}}}
-  const loud=phase==='scream'?Math.min(1,Math.max(0,(lvl-0.01)/0.2)):0;
-  c.fillStyle='#1c1230';c.fillRect(0,0,W,H);if(shatter>0&&!REDUCED)c.translate((Math.random()-.5)*10,(Math.random()-.5)*6);
-  c.fillStyle='#3b2414';c.fillRect(0,H*0.42,W,10);
-  glass.forEach(g=>{const x=g.x*W;if(g.broken){c.fillStyle='rgba(238,243,247,.6)';for(let i=0;i<4;i++){c.fillRect(x-8+i*5,H*0.42-4-i%2*3,3,3)}}else{c.strokeStyle='rgba(238,243,247,.8)';c.lineWidth=2;c.beginPath();c.moveTo(x-7,H*0.42-26);c.lineTo(x-5,H*0.42);c.lineTo(x+5,H*0.42);c.lineTo(x+7,H*0.42-26);c.stroke();c.fillStyle='rgba(231,165,30,.7)';c.fillRect(x-5,H*0.42-14,10,13)}});
-  const gy=H*0.97,sc=Math.min(1.3,H/180);
-  guy(c,{x:W*0.5,y:gy,s:sc,col:ME,aL:2.6+loud*0.4,aR:2.8+loud*0.3,mouth:loud>0.05?'o':'smile',eyes:loud>0.3?'closed':'o',flush:loud*0.8,tilt:-loud*0.3,lean:Math.sin(tt*30)*loud*0.04});
-  if(loud>0.05){c.strokeStyle='rgba(242,195,59,'+(0.3+loud*0.6).toFixed(2)+')';c.lineWidth=3;for(let i=1;i<4;i++){c.beginPath();c.arc(W*0.5+8*sc,gy-80*sc,i*18*sc*(1+loud),-0.7,0.7);c.stroke()}}
-  [0.12,0.88].forEach((x,i)=>guy(c,{x:W*x,y:gy,s:sc*0.85,col:'#2b3542',flip:x<0.5?1:-1,eyes:loud>0.4?'wide':'o',mouth:loud>0.4?'o':'flat',aL:loud>0.4?2.9:0.3,aR:loud>0.4?3:0.2,tilt:loud>0.4?0.3:0}));
-  c.fillStyle='#eef3f7';c.font='400 '+Math.round(H*0.09)+'px "Bowlby One",sans-serif';c.textAlign='center';c.fillText(phase==='scream'?Math.max(40,Math.round(peak))+' dB':'',W/2,H*0.2);
  });
  return()=>{ended=true;if(mic)mic.stop();stop()};
 };
@@ -2716,6 +2694,188 @@ PLAY.botten=function(box,seed,pr,done){
   if(sign){c.fillStyle=phase==='go'?'#58c487':fakeOn?'#ff3fa4':'rgba(255,255,255,.12)';rr(c,W/2-110,H*0.08,220,H*0.15,12);c.fill();c.fillStyle='#fff';c.font='400 '+Math.round(H*0.08)+'px "Bowlby One",sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(sign,W/2,H*0.155)}
  });
  return()=>{ended=true;window.removeEventListener('deviceorientation',onOri);stop()};
+};
+
+
+function motionStart(box,go,onOk,onFail,ev,fn){go.addEventListener('click',()=>{go.hidden=true;SENS.motion().then(()=>{window.addEventListener(ev,fn);onOk()}).catch(()=>onFail())})}
+
+/* --- Snurran (gyro) --- */
+PLAY.snurr=function(box,seed,pr,done){
+ const R=rng(seed),TURNS=5;let manual=false,phase='ask',t=0,deg=0,lastA=null,spinT=0,tapT=0,hits=0,ended=false,tg=null;
+ const ME=colorOf(myId());
+ const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Snurran'});
+ const vEl=el('b',{text:'0/'+TURNS}),tEl=el('b',{text:'0,0 s'}),fl=el('div',{class:'flash',text:'Ställ dig upp med mobilen framför dig.'});
+ const go=el('button',{class:'btn alt',text:'Redo att snurra (tillåt rörelse)'});
+ const btn=el('button',{class:'mash',text:'SNURRA (hamra)',hidden:true});
+ box.append(hud(['Varv',vEl],['Tid',tEl]),cv,fl,go,btn);
+ const onOri=e=>{if(e.alpha==null||phase!=='spin')return;if(lastA!=null){let d=e.alpha-lastA;if(d>180)d-=360;if(d<-180)d+=360;deg+=Math.abs(d)}lastA=e.alpha};
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();if(phase==='spin')deg+=24});
+ motionStart(box,go,()=>{phase='spin';t=0;fl.textContent='SNURRA RUNT! '+TURNS+' varv, så fort du kan.';fl.className='flash hot'},()=>{manual=true;btn.hidden=false;sensorNote(box,'Ingen rörelsesensor. Hamra för att snurra.');phase='spin';t=0;fl.textContent='Hamra!';fl.className='flash hot'},'deviceorientation',onOri);
+ const newTg=()=>{tg={x:0.15+R()*0.7,y:0.2+R()*0.6,r:0.07}};
+ cv.addEventListener('pointerdown',e=>{if(phase!=='tap'||ended)return;const r=cv.getBoundingClientRect();const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;if(Math.hypot(x-tg.x,(y-tg.y)*r.height/r.width)<tg.r*1.3){hits++;SFX.blip(900,0.08,0.12,'square');if(hits>=5){phase='done';ended=true;window.removeEventListener('deviceorientation',onOri);const ms=Math.round(t*1000);fl.textContent='Klar på '+(t).toFixed(1).replace('.',',')+' s! Står du fortfarande?';fl.className='flash good';SFX.horn();setTimeout(()=>done(ms),900)}else newTg()}else{t+=1;SFX.fail();fl.textContent='Miss! +1 s';fl.className='flash bad'}});
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{
+  if(phase==='spin'||phase==='tap'){t+=dt;tEl.textContent=t.toFixed(1).replace('.',',')+' s'}
+  if(phase==='spin'){const v=Math.min(TURNS,Math.floor(deg/360));vEl.textContent=v+'/'+TURNS;spinT+=dt;if(deg>=TURNS*360){phase='tap';newTg();hits=0;SFX.horn();shakeApp();fl.textContent='STANNA! Tryck på de fem shotsen på skärmen.';fl.className='flash hot'}}
+  if(t>=40&&!ended){ended=true;window.removeEventListener('deviceorientation',onOri);setTimeout(()=>done(40000),300)}
+  c.fillStyle='#1c1230';c.fillRect(0,0,W,H);
+  if(phase==='tap'){const wob=Math.max(0,1-(t-0)*0)*0;c.save();c.translate(W/2,H/2);c.rotate(Math.sin(tt*3)*0.2);c.translate(-W/2,-H/2);
+   for(let i=0;i<3;i++){c.globalAlpha=i?0.25:1;const ox=Math.sin(tt*2+i)*14*i,oy=Math.cos(tt*2.3+i)*10*i;c.fillStyle='rgba(238,243,247,.9)';circ(c,tg.x*W+ox,tg.y*H+oy,tg.r*W);c.fill();c.fillStyle='#d2412d';circ(c,tg.x*W+ox,tg.y*H+oy,tg.r*W*0.7);c.fill()}c.globalAlpha=1;c.restore();
+   c.fillStyle='#eef3f7';c.font='700 13px "Barlow Condensed",sans-serif';c.textAlign='left';c.fillText('SHOTS '+hits+'/5',10,18);return}
+  const sc=Math.min(1.4,H/170),rot=phase==='spin'?deg*Math.PI/180:0;
+  c.save();c.translate(W/2,H*0.95);c.scale(Math.cos(rot)>=0?1:-1,1);guy(c,{x:0,y:0,s:sc,col:ME,aL:1.6+Math.sin(rot)*0.4,aR:1.6-Math.sin(rot)*0.4,eyes:phase==='spin'&&deg>720?'dizzy':'o',mouth:phase==='spin'?'grin':'smile',lean:Math.sin(rot*0.5)*0.15});c.restore();
+  for(let i=0;i<8;i++){const a=rot+i*Math.PI/4;c.fillStyle=COLORS[i];circ(c,W/2+Math.cos(a)*W*0.4,H*0.55+Math.sin(a)*H*0.12,5);c.fill()}
+  c.strokeStyle='rgba(255,255,255,.2)';c.lineWidth=6;c.beginPath();c.arc(W/2,H*0.25,H*0.12,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,deg/(TURNS*360)));c.strokeStyle='#f2c33b';c.stroke();
+ });
+ return()=>{ended=true;window.removeEventListener('deviceorientation',onOri);stop()};
+};
+
+/* --- Après-hoppet (accelerometer) --- */
+PLAY.hoppa=function(box,seed,pr,done){
+ let manual=false,phase='ask',t=0,n=0,state=0,cool=0,ended=false,air=0;
+ const ME=colorOf(myId());
+ const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Après-hoppet'});
+ const nEl=el('b',{text:'0'}),tEl=el('b',{text:'10,0 s'}),fl=el('div',{class:'flash',text:'Håll mobilen hårt mot bröstet.'});
+ const go=el('button',{class:'btn alt',text:'Redo (tillåt rörelse)'});
+ const btn=el('button',{class:'mash',text:'HOPPA (hamra)',hidden:true});
+ box.append(hud(['Hopp',nEl],['Kvar',tEl]),cv,fl,go,btn);
+ const jump=()=>{n++;air=0.35;nEl.textContent=String(n);SFX.blip(300+n*8,0.06,0.1,'square',700)};
+ const onM=e=>{const a=e.accelerationIncludingGravity;if(!a||phase!=='go')return;const m=Math.hypot(a.x||0,a.y||0,a.z||0);if(state===0&&m>17&&cool<=0){state=1}else if(state===1&&m<8){state=0;cool=0.22;jump()}};
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();if(phase==='go'){if(Math.random()<0.5)jump()}});
+ motionStart(box,go,()=>{phase='count';t=0},()=>{manual=true;btn.hidden=false;sensorNote(box,'Ingen rörelsesensor. Hamra knappen (varannan tryckning räknas).');phase='count';t=0},'devicemotion',onM);
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{cool-=dt;air=Math.max(0,air-dt);
+  if(phase==='count'){t+=dt;fl.textContent=t<1?'3…':t<2?'2…':t<3?'1…':'';fl.className='flash';if(t>=3){phase='go';t=0;fl.textContent='HOPPA! HOPPA! HOPPA!';fl.className='flash hot';SFX.horn()}}
+  else if(phase==='go'){t+=dt;tEl.textContent=Math.max(0,10-t).toFixed(1).replace('.',',')+' s';if(t>=10&&!ended){ended=true;phase='done';window.removeEventListener('devicemotion',onM);fl.textContent=n+' hopp! '+(n>25?'Grannarna klagar.':n>12?'Bra drag.':'Lite slött.');fl.className='flash good';SFX.cheer();setTimeout(()=>done(n),900)}}
+  c.fillStyle='#1c1230';c.fillRect(0,0,W,H);const pulse=air/0.35;c.fillStyle='rgba(255,63,164,'+(0.25*pulse).toFixed(2)+')';c.fillRect(0,0,W,H);
+  const gy=H*0.95,sc=Math.min(1.3,H/180),j=Math.sin(Math.PI*pulse)*H*0.18;
+  [0.15,0.85].forEach((x,i)=>{const jj=phase==='go'?Math.abs(Math.sin(tt*7+i))*H*0.1:0;guy(c,{x:W*x,y:gy-jj,s:sc*0.85,col:otherColor(S.state,i),flip:x<0.5?1:-1,aL:3,aR:2.8,eyes:'happy',mouth:'grin'})});
+  guy(c,{x:W/2,y:gy-j,s:sc,col:ME,aL:air>0?3:2.2,aR:air>0?3.1:2.4,lL:air>0?0.4:0.1,lR:air>0?-0.4:-0.1,eyes:air>0?'happy':'o',mouth:air>0?'grin':'smile',flush:Math.min(0.8,n/40)});
+  c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(W/2,gy+2,26*sc*(1-pulse*0.4),5,0,0,Math.PI*2);c.fill();
+ });
+ return()=>{ended=true;window.removeEventListener('devicemotion',onM);stop()};
+};
+
+/* --- Göm ölen (kamera, ljusstyrka) --- */
+PLAY.gom=function(box,seed,pr,done){
+ const R=rng(seed),segs=[];let s0=1.5;while(s0<30){const look=segs.length%2===1;const d=look?1.2+R()*1.5:1.4+R()*2.4;segs.push({a:s0,b:s0+d,look,warn:look?0.5:0});s0+=d}
+ let cam=null,manual=false,phase='ask',t=0,score=0,base=null,bright=1,hidden=false,caught=0,ended=false,caughtT=0,hold=false;
+ const ME=colorOf(myId());
+ const video=el('video',{class:'cam-prev',playsinline:true,muted:true});const small=document.createElement('canvas');small.width=16;small.height=12;const sctx=small.getContext('2d',{willReadFrequently:true});
+ const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Göm ölen'});
+ const sEl=el('b',{text:'0'}),tEl=el('b',{text:'30'}),fl=el('div',{class:'flash',text:'Tillåt kameran. Selfiekameran är din öl.'});
+ const btn=el('button',{class:'hold',text:'GÖM ÖLEN (håll)',hidden:true});
+ box.append(hud(['Klunkar',sEl],['Tid',tEl]),cv,el('div',{class:'cam-wrap'},video),fl,btn);
+ btn.addEventListener('pointerdown',e=>{e.preventDefault();hold=true});['pointerup','pointercancel','pointerleave'].forEach(ev=>btn.addEventListener(ev,()=>{hold=false}));
+ SENS.cam(video,'user').then(c=>{cam=c;phase='cal';t=0;fl.textContent='Håll fingret över selfiekameran för att gömma ölen. Testa!';fl.className='flash'}).catch(()=>{manual=true;btn.hidden=false;video.hidden=true;sensorNote(box,'Ingen kamera. Håll knappen för att gömma ölen.');phase='play';t=0});
+ function lum(){if(video.readyState<2)return bright;sctx.drawImage(video,0,0,16,12);const d=sctx.getImageData(0,0,16,12).data;let s=0;for(let i=0;i<d.length;i+=4)s+=d[i]+d[i+1]+d[i+2];return s/(d.length/4)/765}
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{caughtT=Math.max(0,caughtT-dt);
+  if(!manual&&cam){bright+=(lum()-bright)*Math.min(1,dt*10);if(base==null&&t>0.4)base=bright;}
+  if(manual)hidden=hold;else if(base!=null)hidden=bright<base*0.45||bright<0.06;
+  if(phase==='cal'){t+=dt;if(hidden&&t>0.8){phase='play';t=0;SFX.blip(900,0.1,0.12,'square');fl.textContent='Bra! Drick när han inte tittar. Göm när han vänder sig.';fl.className='flash good'}if(t>8){phase='play';t=0}}
+  let seg=null;if(phase==='play'&&!ended){t+=dt;seg=segs.find(s=>t>=s.a&&t<s.b);const look=seg&&seg.look&&t-seg.a>0.45;
+   if(look&&!hidden&&caughtT<=0){caught++;score=Math.max(0,score-5);caughtT=1.2;fl.textContent='TAGEN! Vakten såg ölen. −5';fl.className='flash bad';SFX.fail();shakeApp()}
+   else if(!look&&!hidden){score+=dt*3;if(Math.random()<dt*3)SFX.gulp()}
+   if(seg&&seg.look&&t-seg.a<0.45&&caughtT<=0){fl.textContent='HAN VÄNDER SIG!';fl.className='flash hot'}else if(caughtT<=0)fl.textContent=look?(hidden?'Puh…':''):'Drick! Drick!',fl.className='flash '+(look?'':'good');
+   sEl.textContent=String(Math.round(score));tEl.textContent=String(Math.max(0,Math.ceil(30-t)));
+   if(t>=30){ended=true;if(cam)cam.stop();fl.textContent=Math.round(score)+' klunkar, tagen '+caught+' gånger.';fl.className='flash good';SFX.horn();setTimeout(()=>done(Math.round(score)),900)}}
+  const turning=seg&&seg.look;const turnP=seg&&seg.look?Math.min(1,(t-seg.a)/0.45):0;
+  c.fillStyle='#24180f';c.fillRect(0,0,W,H);c.fillStyle='#d2412d';c.font='400 '+Math.round(H*0.06)+'px "Bowlby One",sans-serif';c.textAlign='center';c.fillText('INGEN MEDHAVD ALKOHOL',W/2,H*0.1);
+  const gy=H*0.95,sc=Math.min(1.3,H/180);
+  guy(c,{x:W*0.72,y:gy,s:sc,col:'#14181c',hat:'#14181c',pom:'#d2412d',flip:turning&&turnP>0.5?-1:1,aL:0.3,aR:0.4,eyes:caughtT>0?'wide':'o',mouth:caughtT>0?'o':'flat',tilt:turning?0:0.1});
+  if(!turning)bubble(c,W*0.82,gy-100*sc,'…',W);
+  guy(c,{x:W*0.3,y:gy,s:sc,col:ME,aR:hidden?0.2:2.6,aL:0.3,eyes:hidden?'o':'closed',mouth:hidden?'flat':'o',flush:pr*0.3,tilt:hidden?0:-0.4,
+   hold:(c2,hx,hy)=>{if(!hidden){c2.save();c2.translate(hx,hy);c2.rotate(2.4);c2.fillStyle='#2f6b52';rr(c2,-5,-22,10,26,3);c2.fill();c2.restore()}}});
+  if(hidden){c.fillStyle='#2f6b52';rr(c,W*0.3+10*sc,gy-36*sc,8,18,3);c.fill()}
+  if(phase==='cal'){c.fillStyle='#eef3f7';c.font='400 16px "Bowlby One",sans-serif';c.fillText(hidden?'GÖMD ✓':'Täck kameran',W/2,H*0.5)}
+ });
+ return()=>{ended=true;if(cam)cam.stop();stop()};
+};
+
+/* --- Hitta stugan (kompass) --- */
+PLAY.hitta=function(box,seed,pr,done){
+ const R=rng(seed),N=4;let manual=false,phase='ask',k=0,t=0,head=0,base=null,target=0,lockT=0,ended=false,beepT=0,turn=0;
+ const ME=colorOf(myId());
+ const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Hitta stugan'});
+ const kEl=el('b',{text:'1/'+N}),tEl=el('b',{text:'0,0 s'}),fl=el('div',{class:'flash',text:'Det är mörkt och du har tappat bort stugan.'});
+ const go=el('button',{class:'btn alt',text:'Börja leta (tillåt rörelse)'});
+ const bL=el('button',{text:'⟲'}),bR=el('button',{text:'⟳'});const steer=el('div',{class:'steer',hidden:true},[bL,bR]);
+ box.append(hud(['Stuga',kEl],['Tid',tEl]),cv,fl,go,steer);
+ hold(bL,()=>{turn=-1},()=>{if(turn<0)turn=0});hold(bR,()=>{turn=1},()=>{if(turn>0)turn=0});
+ const onOri=e=>{let a=e.webkitCompassHeading!=null?e.webkitCompassHeading:(e.alpha!=null?360-e.alpha:null);if(a==null)return;if(base==null)base=a;head=((a-base)%360+360)%360};
+ const newT=()=>{target=(head+90+R()*180)%360;lockT=0};
+ motionStart(box,go,()=>{phase='play';t=0;newT();fl.textContent='Vänd dig runt med mobilen. Pipet går fortare när du pekar rätt.';fl.className='flash hot'},()=>{manual=true;steer.hidden=false;sensorNote(box,'Ingen kompass. Snurra med knapparna.');phase='play';t=0;newT()},'deviceorientation',onOri);
+ const NAMES=['Stugan','Bastun','Baren','Liften'];
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{
+  if(manual)head=((head+turn*120*dt)%360+360)%360;
+  let diff=((target-head+540)%360)-180;const close=1-Math.min(1,Math.abs(diff)/180);
+  if(phase==='play'&&!ended){t+=dt;tEl.textContent=t.toFixed(1).replace('.',',')+' s';beepT-=dt;if(beepT<=0){beepT=0.12+(1-close)*0.9;SFX.blip(300+close*900,0.05,0.1,'sine')}
+   if(Math.abs(diff)<14){lockT+=dt;if(lockT>0.9){SFX.horn();fl.textContent=NAMES[k]+' hittad!';fl.className='flash good';k++;if(k>=N){ended=true;window.removeEventListener('deviceorientation',onOri);const ms=Math.round(t*1000);setTimeout(()=>done(ms),800)}else{kEl.textContent=(k+1)+'/'+N;newT()}}}else lockT=Math.max(0,lockT-dt*2);
+   if(t>=60&&!ended){ended=true;setTimeout(()=>done(60000),300)}}
+  c.fillStyle='#050912';c.fillRect(0,0,W,H);for(let i=0;i<50;i++){c.fillStyle='rgba(255,255,255,.4)';circ(c,(i*97.1+head*3)%W,(i*37.3)%(H*0.6),1);c.fill()}
+  c.fillStyle='#dfe8f0';c.fillRect(0,H*0.8,W,H*0.2);
+  const sx=W/2+diff/90*W*0.5;
+  if(Math.abs(diff)<100){const gl=c.createRadialGradient(sx,H*0.62,4,sx,H*0.62,80+close*60);gl.addColorStop(0,'rgba(255,210,122,'+(0.15+close*0.6).toFixed(2)+')');gl.addColorStop(1,'rgba(255,210,122,0)');c.fillStyle=gl;circ(c,sx,H*0.62,140);c.fill();
+   c.fillStyle='#3a1a14';c.fillRect(sx-40,H*0.62,80,H*0.18);c.fillStyle='#14100a';c.beginPath();c.moveTo(sx-50,H*0.62);c.lineTo(sx,H*0.48);c.lineTo(sx+50,H*0.62);c.fill();c.fillStyle='#ffd27a';c.fillRect(sx-12,H*0.66,22,16);
+   c.fillStyle='#eef3f7';c.font='700 12px "Barlow Condensed",sans-serif';c.textAlign='center';c.fillText(NAMES[Math.min(k,N-1)].toUpperCase(),sx,H*0.46)}
+  for(let i=0;i<9;i++){const x=((i*W/8-head*4)%(W+60)+W+60)%(W+60)-30;c.fillStyle='#0d1f17';c.beginPath();c.moveTo(x,H*0.8);c.lineTo(x+18,H*0.55);c.lineTo(x+36,H*0.8);c.fill()}
+  const sc=Math.min(1.1,H/200);guy(c,{x:W/2,y:H*0.98,s:sc,col:ME,aR:2.3,aL:0.3,flip:diff<0?-1:1,eyes:close>0.85?'happy':'o',mouth:close>0.85?'grin':'frown',flush:-0.3,lean:Math.sin(tt*1.6)*pr*0.06,
+   hold:(c2,hx,hy)=>{c2.fillStyle='#fff8c4';c2.globalAlpha=0.6;c2.beginPath();c2.moveTo(hx,hy);c2.lineTo(hx+60,hy-30);c2.lineTo(hx+60,hy+20);c2.fill();c2.globalAlpha=1}});
+  c.fillStyle='rgba(255,255,255,.15)';c.fillRect(W*0.1,10,W*0.8,6);c.fillStyle=close>0.9?'#58c487':close>0.6?'#f2c33b':'#d2412d';c.fillRect(W*0.1,10,W*0.8*close,6);
+  c.fillStyle='#eef3f7';c.font='700 11px "Barlow Condensed",sans-serif';c.textAlign='left';c.fillText(close>0.9?'VARMT!':close>0.6?'LJUMMET':'KALLT',W*0.1,30);
+ });
+ return()=>{ended=true;window.removeEventListener('deviceorientation',onOri);stop()};
+};
+
+/* --- Lutpisten (lutning) --- */
+PLAY.lut=function(box,seed,pr,done){
+ const R=rng(seed),gates=[];let gy0=1;for(let i=0;i<40;i++){gates.push({y:gy0,x:0.2+R()*0.6,w:Math.max(0.16,0.3-i*0.004),done:false,ok:false});gy0+=0.55}
+ let manual=false,phase='ask',t=0,x=0.5,tilt=0,base=null,steer=0,d=0,score=0,ended=false,crashT=0;
+ const ME=colorOf(myId());
+ const cv=el('canvas',{class:'play pist-cv','aria-label':'Lutpisten'});
+ const sEl=el('b',{text:'0'}),tEl=el('b',{text:'25'}),fl=el('div',{class:'flash',text:'Mobilen är dina skidor. Luta för att svänga.'});
+ const go=el('button',{class:'btn alt',text:'Spänn på dig (tillåt rörelse)'});
+ const bL=el('button',{text:'◀'}),bR=el('button',{text:'▶'});const st=el('div',{class:'steer',hidden:true},[bL,bR]);
+ box.append(hud(['Portar',sEl],['Tid',tEl]),cv,fl,go,st);
+ hold(bL,()=>{steer=-1},()=>{if(steer<0)steer=0});hold(bR,()=>{steer=1},()=>{if(steer>0)steer=0});
+ const onOri=e=>{if(e.gamma==null)return;if(base==null)base=e.gamma;tilt=Math.max(-1,Math.min(1,(e.gamma-base)/25))};
+ motionStart(box,go,()=>{phase='play';t=0;fl.textContent='Luta vänster och höger!';fl.className='flash hot'},()=>{manual=true;st.hidden=false;sensorNote(box,'Ingen lutningssensor. Styr med pilarna.');phase='play';t=0},'deviceorientation',onOri);
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{crashT=Math.max(0,crashT-dt);
+  if(phase==='play'&&!ended){t+=dt;if(manual)tilt+=(steer-tilt)*Math.min(1,dt*6);const v=0.5+t*0.018;d+=v*dt;x+=(tilt*1.3+pr*0.3*Math.sin(t*2))*dt;x=Math.max(0.04,Math.min(0.96,x));
+   for(const g of gates){if(!g.done&&g.y<=d){g.done=true;g.ok=Math.abs(x-g.x)<=g.w/2;if(g.ok){score++;sEl.textContent=String(score);SFX.blip(800,0.06,0.1,'square')}else{crashT=0.4;SFX.fail()}}}
+   tEl.textContent=String(Math.max(0,Math.ceil(25-t)));if(t>=25){ended=true;window.removeEventListener('deviceorientation',onOri);fl.textContent=score+' portar!';fl.className='flash good';SFX.horn();setTimeout(()=>done(score),700)}}
+  const py=H*0.25,U=H*0.85;c.fillStyle='#eef3f7';c.fillRect(0,0,W,H);c.strokeStyle='rgba(90,120,150,.13)';const off=(d*U)%16;for(let yy=-off;yy<H;yy+=16){c.beginPath();c.moveTo(0,yy);c.lineTo(W,yy);c.stroke()}
+  for(const g of gates){const sy=py+(g.y-d)*U;if(sy<-30||sy>H+30)continue;const col=gates.indexOf(g)%2?'#3f7fe3':'#d2412d';c.globalAlpha=g.done?0.3:1;[[g.x-g.w/2,-1],[g.x+g.w/2,1]].forEach(([gx,dir])=>{c.strokeStyle='#222';c.lineWidth=3;c.beginPath();c.moveTo(gx*W,sy-24);c.lineTo(gx*W,sy+2);c.stroke();c.fillStyle=col;c.beginPath();c.moveTo(gx*W,sy-24);c.lineTo(gx*W+dir*14,sy-18);c.lineTo(gx*W,sy-12);c.fill()});c.globalAlpha=1}
+  const sc=Math.min(0.9,H/300);c.save();c.translate(x*W,py);c.rotate(tilt*0.4);c.strokeStyle='#d2412d';c.lineWidth=3;c.beginPath();c.moveTo(-8,-14);c.lineTo(-8,14);c.moveTo(8,-14);c.lineTo(8,14);c.stroke();c.restore();
+  guy(c,{x:x*W,y:py+6,s:sc,col:ME,lean:tilt*0.4,aL:0.6,aR:-0.5,eyes:crashT>0?'x':'o',mouth:crashT>0?'o':'grin'});
+  c.fillStyle='rgba(16,26,36,.6)';c.fillRect(W/2-40,H-14,80,6);c.fillStyle='#f2c33b';c.fillRect(W/2-2+tilt*38,H-16,4,10);
+ });
+ return()=>{ended=true;window.removeEventListener('deviceorientation',onOri);stop()};
+};
+
+/* --- Spring till liften (stegräknare) --- */
+PLAY.steg=function(box,seed,pr,done){
+ const GOAL=30;let manual=false,phase='ask',t=0,n=0,state=0,cool=0,ended=false,last=0,lastSide=-1;
+ const ME=colorOf(myId());
+ const cv=el('canvas',{class:'play scene-cv tall','aria-label':'Spring till liften'});
+ const nEl=el('b',{text:'0/'+GOAL}),tEl=el('b',{text:'0,0 s'}),fl=el('div',{class:'flash',text:'Liften stänger! Spring på stället med mobilen i handen.'});
+ const go=el('button',{class:'btn alt',text:'Redo (tillåt rörelse)'});
+ const bL=el('button',{text:'VÄNSTER'}),bR=el('button',{text:'HÖGER'});const st=el('div',{class:'steer big',hidden:true},[bL,bR]);
+ box.append(hud(['Steg',nEl],['Tid',tEl]),cv,fl,go,st);
+ const step=()=>{if(phase!=='go')return;n++;last=t;nEl.textContent=n+'/'+GOAL;SFX.blip(n%2?300:360,0.04,0.08,'square');if(n>=GOAL){ended=true;phase='done';window.removeEventListener('devicemotion',onM);const ms=Math.round(t*1000);fl.textContent='Hann med liften! '+(t).toFixed(1).replace('.',',')+' s';fl.className='flash good';SFX.horn();setTimeout(()=>done(ms),900)}};
+ const onM=e=>{const a=e.accelerationIncludingGravity;if(!a||phase!=='go')return;const m=Math.hypot(a.x||0,a.y||0,a.z||0);if(state===0&&m>13.5&&cool<=0)state=1;else if(state===1&&m<10){state=0;cool=0.16;step()}};
+ [bL,bR].forEach((b,i)=>b.addEventListener('pointerdown',e=>{e.preventDefault();if(i!==lastSide){lastSide=i;step()}}));
+ motionStart(box,go,()=>{phase='go';t=0;SFX.horn();fl.textContent='SPRING!';fl.className='flash hot'},()=>{manual=true;st.hidden=false;sensorNote(box,'Ingen rörelsesensor. Tryck vänster/höger växelvis.');phase='go';t=0},'devicemotion',onM);
+ const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{cool-=dt;
+  if(phase==='go'){t+=dt;tEl.textContent=t.toFixed(1).replace('.',',')+' s';if(t>=30&&!ended){ended=true;fl.textContent='Liften gick. Du står kvar i kön.';fl.className='flash bad';SFX.fail();setTimeout(()=>done(30000+(GOAL-n)*300),800)}}
+  const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#7fb2e6');g.addColorStop(1,'#e8f1f8');c.fillStyle=g;c.fillRect(0,0,W,H);c.fillStyle='#f4f8fb';c.fillRect(0,H*0.75,W,H*0.25);
+  const prog=n/GOAL,lx=W*0.85;c.fillStyle='#8f2a1e';c.fillRect(lx-20,H*0.45,40,H*0.3);c.fillStyle='#2b3542';c.fillRect(lx-2,H*0.1,4,H*0.35);c.strokeStyle='#2b3542';c.lineWidth=2;c.beginPath();c.moveTo(0,H*0.12);c.lineTo(W,H*0.08);c.stroke();
+  const chairX=((tt*40)%(W+80))-40;c.fillStyle='#3a4757';c.fillRect(chairX-20,H*0.3,40,6);c.beginPath();c.moveTo(chairX,H*0.1);c.lineTo(chairX,H*0.3);c.stroke();
+  const running=phase==='go'&&t-last<0.4,ph=n*Math.PI/2;const sc=Math.min(1.2,H/190),px=W*0.1+prog*W*0.6;
+  guy(c,{x:px,y:H*0.95,s:sc,col:ME,boot:'ski',bootsL:4,bootsR:4,lL:running?Math.sin(ph)*0.7:0.1,lR:running?-Math.sin(ph)*0.7:-0.1,aL:running?2.2+Math.sin(ph)*0.6:0.3,aR:running?2.4-Math.sin(ph)*0.6:0.4,lean:running?0.15:0,eyes:'wide',mouth:running?'grit':'o',flush:Math.min(0.7,n/40),
+   hold:(c2,hx,hy)=>{c2.strokeStyle='#d2412d';c2.lineWidth=3;c2.beginPath();c2.moveTo(hx-10,hy+14);c2.lineTo(hx+20,hy-30);c2.stroke()}});
+  guy(c,{x:lx,y:H*0.95,s:sc*0.9,col:'#ff9f43',hat:'#d2412d',flip:-1,aR:2.8,aL:0.3,mouth:'o'});
+  if(phase==='go')bubble(c,lx,H*0.95-100*sc*0.9,['Sista åket!','Skynda!','Vi stänger!'][Math.floor(tt/2)%3],W);
+ });
+ return()=>{ended=true;window.removeEventListener('devicemotion',onM);stop()};
 };
 
 /* ================= BACKGROUND SNOW ================= */
