@@ -92,7 +92,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--pist);outline-o
 .wait span.dead{background:var(--falu);border-color:var(--falu);color:var(--snow)}
 .modbadge{font:700 12px var(--f-label);letter-spacing:.12em;text-transform:uppercase;background:var(--neon);color:#1a0612;padding:4px 8px;border-radius:5px;align-self:flex-start}
 /* stage + chaos modifiers */
-.mod-flip{transform:rotate(180deg)}
+.mod-flip,.mod-chaos{transform:rotate(180deg)}
 .mod-mirror{transform:scaleX(-1)}
 .mod-blur{filter:blur(2.6px)}
 .mod-dark{animation:blackout 2.6s steps(1,end) infinite}
@@ -359,11 +359,11 @@ const GAMES=[
  {key:'dans',name:'Dansgolvet',time:'18:00',diff:'black',where:'Afterskin, uppe på borden',sub:'DJ:n släpper droppet. Håll takten.',
   rules:['Pilarna faller mot linjen. Tryck rätt pil i takt.','Efter droppet kommer de dubbelt så tätt.','Perfekt = 3, bra = 2, okej = 1.','Ljudet startar när du trycker Starta.'],higher:true,fmt:v=>v+' p',bot:()=>30+Math.floor(Math.random()*45)},
  {key:'vote',name:'Skvallret',time:'21:00',diff:'green',where:'Stugan, efter maten',sub:'Tre frågor. Hänga ut en kompis.',
-  rules:['Rösta på den som passar bäst. Ja, även dig själv.','Poäng när du röstar som flest.','Den som blir mest utpekad får +0,3 ‰.'],fmt:()=>''},
+  rules:['Rösta på den som passar bäst. Ja, även dig själv.','Rösta som flest i gänget. Flest rätt får 3 · 2 · 1 poäng.','Den som blir mest utpekad tar en klunk. På riktigt.'],fmt:()=>''},
  {key:'hem',name:'Vägen hem',time:'00:40',diff:'black',where:'Byvägen, minus 18',sub:'Kom så långt du kan utan att gå i backen.',
   rules:['Du svajar. Håll vänster/höger för att räta upp dig.','Vindbyar kommer från ingenstans.','Lutar du för mycket: pannan i snön.','Flest meter på 25 sekunder vinner.'],higher:true,fmt:v=>v+' m',bot:()=>12+Math.floor(Math.random()*26)},
  {key:'kasino',name:'Stugkasinot',time:'02:10',diff:'black',where:'Köksbordet, sista rundan',sub:'Högt eller lågt. Sätt stugan på spel.',
-  rules:['100 kr i marker. Fem kort.','Gissa om nästa kort är högre eller lägre. Lika = huset vinner.','ALL IN betalar tre gånger insatsen om du har rätt.','Pank = straffklunk.'],higher:true,fmt:v=>v+' kr',bot:()=>[0,0,40,85,120,210,380,600][Math.floor(Math.random()*8)]},
+  rules:['100 kr i marker. Fem kort.','Gissa om nästa kort är högre eller lägre. Lika = huset vinner.','ALL IN betalar tre gånger insatsen om du har rätt.','Minst marker kvar = straffklunk.'],higher:true,fmt:v=>v+' kr',bot:()=>[0,0,40,85,120,210,380,600][Math.floor(Math.random()*8)]},
  {key:'lift',name:'Ankarliften',diff:'blue',where:'Liften, med liftskötaren som stirrar',sub:'Hugg ankaret exakt rätt. Annars drar du ner hela liften.',
   rules:['Markören glider fram och tillbaka.','Tryck när den är i det gröna. Mitt i prick = 2 poäng.','Sex försök. Det går fortare och fortare.','Missar du skriker liftskötaren.'],higher:true,fmt:v=>v+' p',bot:()=>3+Math.floor(Math.random()*8)},
  {key:'grill',name:'Grillkön',diff:'red',where:'Gatuköket, kön ringlar',sub:'Kom ihåg allas beställningar. Du är ändå full.',
@@ -426,8 +426,6 @@ const GAMES=[
   rules:['Står det "Skidlärarn säger" ska du göra rörelsen.','Står det inte så: gör ingenting.','Snabbt rätt svar = +2.','Tolv order.'],higher:true,fmt:v=>v+' p',bot:()=>4+Math.floor(Math.random()*16)},
  {key:'gard',name:'Garderoben',diff:'blue',where:'Garderoben på afterskin, 01:58',sub:'Nummerlappen är borta. Hitta din jacka bland alla andra.',
   rules:['Din jacka visas överst.','Tryck på den bland de sexton jackorna.','Fel jacka = +2 sekunder.','Fem jackor. Snabbast vinner.'],higher:false,fmt:v=>v>=45000?'Frös hem':(v/1000).toFixed(1).replace('.',',')+' s',bot:()=>8000+Math.floor(Math.random()*20000)},
- {key:'gissa',name:'Gissa promillen',diff:'green',where:'Stugan, alla tittar på varandra',sub:'Hur full är egentligen gänget? Titta hur de svajar.',
-  rules:['Tre personer ur gänget, kanske du själv.','Gissa deras promille i spelet.','Ju närmare, desto fler poäng. Max 10 per person.'],higher:true,fmt:v=>v+' p',bot:()=>5+Math.floor(Math.random()*22)},
  {key:'alko',name:'Alkotestet',diff:'red',sensor:'mic',where:'Parkeringen, alkolåset i bilen',sub:'Blås i mobilen. Hårt och länge.',
   rules:['Mobilen ber om mikrofonen. Tillåt.','Blås i mikrofonen i sex sekunder.','Ju hårdare och längre, desto fler poäng.','Utan mikrofon: håll knappen.'],higher:true,fmt:v=>v+' p',bot:()=>15+Math.floor(Math.random()*80)},
  {key:'skaka',name:'Champagnen',diff:'red',sensor:'motion',where:'Podiet, någon fyller år',sub:'Skaka flaskan. Korken ska flyga längst.',
@@ -457,8 +455,9 @@ const TIMES=['10:47','13:20','15:30','17:10','19:45','22:30','01:15','02:40'];
 const TOTAL=7;
 const WHEEL=[
  {t:'SKÅL!',c:'#f2c33b'},{t:'UPP OCH NER',c:'#3f7fe3'},{t:'SPEGELVÄNT',c:'#58c487'},{t:'DIMMA',c:'#97a8b8'},
- {t:'ROBIN HOOD',c:'#ff6a52'},{t:'BYT PROMILLE',c:'#c08bff'},{t:'SNÖBOLLSKRIG',c:'#eef3f7'},{t:'DUBBELT',c:'#ff3fa4'},
- {t:'LIFTKORTET',c:'#ff9f43'},{t:'BASTUOLYCKA',c:'#d2412d'},{t:'STRÖMAVBROTT',c:'#5a6b7d'},{t:'JORDBÄVNING',c:'#5ad1d1'},{t:'VATTEN!',c:'#7fc4ff'},{t:'POÄNGBYTE',c:'#ff3fa4'},{t:'JACKPOT',c:'#f2c33b'},{t:'SNÖSTORM',c:'#eef3f7'},{t:'MINIFORMAT',c:'#58c487'},{t:'TOTALKAOS',c:'#d2412d'},{t:'LIFTSTOPP',c:'#3f7fe3'},{t:'STUGFRID',c:'#c08bff'}
+ {t:'FYLLA',c:'#ff3fa4'},{t:'SNÖBOLLSKRIG',c:'#eef3f7'},{t:'STRÖMAVBROTT',c:'#5a6b7d'},{t:'JORDBÄVNING',c:'#5ad1d1'},
+ {t:'SNÖSTORM',c:'#7fc4ff'},{t:'MINIFORMAT',c:'#c08bff'},{t:'TOTALKAOS',c:'#d2412d'},{t:'BYT PLATS',c:'#ff9f43'},
+ {t:'VATTENPAUS',c:'#7fc4ff'},{t:'VINNAREN DRICKER',c:'#f2c33b'},{t:'PEKLEKEN',c:'#58c487'},{t:'HEMLIGHETEN',c:'#c08bff'}
 ];
 const BOTS=[{id:'b1',n:'Robban'},{id:'b2',n:'Kicken'},{id:'b3',n:'Lillen'}];
 
@@ -599,7 +598,7 @@ function roster(){
 }
 function rosterIds(){return roster().map(p=>p.id)}
 function myId(){return S.mode==='local'?'me':S.me}
-function myPr(){const st=S.state;return (st&&st.pr&&st.pr[myId()])||0}
+function myPr(){const st=S.state;return st&&st.ph==='play'&&(st.mod==='drunk'||st.mod==='chaos')?1.7:0}
 
 function pushState(st){S.v++;st.v=S.v;if(S.mode==='room'&&S.room)S.room.presence({s:st}).catch(()=>{});applyState(st)}
 function applyState(st){
@@ -654,8 +653,8 @@ function hostTick(){
 function startEvening(){
  const ro=roster().slice(0,8);
  const first=Math.floor(Math.random()*GAMES.length);
- const st={ph:'intro',gi:first,n:0,used:[first],r:0,ids:ro.map(p=>p.id),nm:{},sc:{},pr:{},res:null,ex:null,mod:null,dbl:false,ammo:3,wh:null};
- ro.forEach(p=>{st.nm[p.id]=p.n;st.sc[p.id]=0;st.pr[p.id]=0.4});
+ const st={ph:'intro',gi:first,n:0,used:[first],r:0,ids:ro.map(p=>p.id),nm:{},sc:{},res:null,ex:null,mod:null,dbl:false,ammo:3,wh:null};
+ st.kl={};ro.forEach(p=>{st.nm[p.id]=p.n;st.sc[p.id]=0;st.kl[p.id]=0});
  pushState(st);
 }
 function bastuBoom(seed){return 7+rng(seed)()*13}
@@ -680,26 +679,20 @@ function rankPts(vals,higher){
  return {order:sorted,pts,losers};
 }
 function finishGame(){
- const st=JSON.parse(JSON.stringify(S.state));const G=GAMES[st.gi];const ro=roster();const mult=st.dbl?2:1;
+ const st=JSON.parse(JSON.stringify(S.state));const G=GAMES[st.gi];const ro=roster();st.kl=st.kl||{};
  const inp={};st.ids.forEach(id=>{const p=ro.find(q=>q.id===id);inp[id]=(p&&p.i&&p.i.r===st.r)?p.i:null});
- st.ids.forEach(id=>{st.pr[id]=r2(st.pr[id]+0.15)});
+ let vals={},higher=G.higher,extra=null;
  if(G.key==='vote'){
   const q=st.ex.q.map(p=>({p,top:[],c:{}}));
   q.forEach((o,k)=>{st.ids.forEach(id=>{const v=inp[id]&&Array.isArray(inp[id].v)?inp[id].v[k]:null;if(v&&st.ids.includes(v))o.c[v]=(o.c[v]||0)+1});
    const max=Math.max(0,...Object.values(o.c));o.top=max?Object.keys(o.c).filter(id=>o.c[id]===max):[]});
-  const pts={};st.ids.forEach(id=>pts[id]=0);
-  q.forEach((o,k)=>{st.ids.forEach(id=>{const v=inp[id]&&inp[id].v?inp[id].v[k]:null;if(v&&o.top.includes(v))pts[id]+=mult});o.top.forEach(id=>{st.pr[id]=r2(st.pr[id]+0.3)})});
-  st.ids.forEach(id=>st.sc[id]+=pts[id]);
-  st.res={k:'vote',q,pts};
- } else {
-  const vals={};st.ids.forEach(id=>{const v=inp[id]?Number(inp[id].v):null;vals[id]=Number.isFinite(v)?v:null});
-  const rp=rankPts(vals,G.higher);
-  st.ids.forEach(id=>{rp.pts[id]*=mult;st.sc[id]+=rp.pts[id]});
-  rp.losers.forEach(id=>{st.pr[id]=r2(st.pr[id]+0.35)});
-  if(G.key==='kasino')st.ids.forEach(id=>{if(vals[id]===0&&!rp.losers.includes(id))st.pr[id]=r2(st.pr[id]+0.35)});
-  st.res={k:'rank',order:rp.order,vals,pts:rp.pts,losers:rp.losers};
- }
- st.mod=null;st.dbl=false;st.ammo=3;st.ph='result';
+  st.ids.forEach(id=>{vals[id]=inp[id]?q.filter((o,k)=>inp[id].v&&o.top.includes(inp[id].v[k])).length:null});higher=true;extra=q;
+ } else st.ids.forEach(id=>{const v=inp[id]?Number(inp[id].v):null;vals[id]=Number.isFinite(v)?v:null});
+ const rp=rankPts(vals,higher);
+ st.ids.forEach(id=>{st.sc[id]+=rp.pts[id]});
+ rp.losers.forEach(id=>{st.kl[id]=(st.kl[id]||0)+1});
+ st.res=G.key==='vote'?{k:'vote',q:extra,pts:rp.pts,vals,losers:rp.losers}:{k:'rank',order:rp.order,vals,pts:rp.pts,losers:rp.losers};
+ st.mod=null;st.ammo=3;st.ph='result';
  pushState(st);
 }
 function spinWheel(){
@@ -707,29 +700,26 @@ function spinWheel(){
  const bySc=st.ids.slice().sort((a,b)=>st.sc[b]-st.sc[a]);const lead=bySc[0],last=bySc[bySc.length-1];
  const rand=st.ids[Math.floor(Math.random()*st.ids.length)];const N=id=>st.nm[id]||'Någon';let d='';
  switch(WHEEL[i].t){
-  case 'SKÅL!':st.ids.forEach(id=>st.pr[id]=r2(st.pr[id]+0.3));d='Alla tar en. +0,3 ‰ på hela gänget.';break;
+  case 'SKÅL!':d='Alla skålar och tar en klunk. På riktigt.';break;
   case 'UPP OCH NER':st.mod='flip';d='Nästa spel spelas på huvudet.';break;
   case 'SPEGELVÄNT':st.mod='mirror';d='Nästa spel är spegelvänt. Lycka till.';break;
   case 'DIMMA':st.mod='blur';d='Ingen ser ett skit nästa spel.';break;
-  case 'ROBIN HOOD':if(lead!==last){const take=Math.min(2,st.sc[lead]);st.sc[lead]-=take;st.sc[last]+=take;d=N(last)+' snor '+take+' poäng från '+N(lead)+'.'}else{d='Alla är lika dåliga. Ingen att råna.'}break;
-  case 'BYT PROMILLE':{const vals=st.ids.map(id=>st.pr[id]);st.ids.forEach((id,k)=>st.pr[id]=vals[(k+1)%vals.length]);d='Alla får grannens promille. Ingen vet vem som är full längre.';break}
+  case 'FYLLA':st.mod='drunk';d='Hela gänget är på lyset. Nästa spel svajar, hickar och ser dubbelt.';break;
   case 'SNÖBOLLSKRIG':st.ammo=8;d='Åtta snöbollar var nästa spel. Krig.';break;
-  case 'DUBBELT':st.dbl=true;d='Nästa spel ger dubbla poäng.';break;
-  case 'LIFTKORTET':st.sc[lead]=Math.max(0,st.sc[lead]-3);d=N(lead)+' tappade liftkortet. −3 poäng.';break;
   case 'STRÖMAVBROTT':st.mod='dark';d='Strömmen går i hela Björnrike. Nästa spel blinkar lamporna.';break;
   case 'JORDBÄVNING':st.mod='quake';d='En pistmaskin kör in i stugan. Nästa spel skakar allt.';break;
-  case 'VATTEN!':{const top=st.ids.slice().sort((a,b)=>st.pr[b]-st.pr[a])[0];st.pr[top]=r2(Math.max(0,st.pr[top]-0.6));d=N(top)+' fick ett glas vatten. −0,6 ‰.';break}
-  case 'POÄNGBYTE':if(lead!==last){const a=st.sc[lead];st.sc[lead]=st.sc[last];st.sc[last]=a;d=N(lead)+' och '+N(last)+' byter poäng. Allt. Rubbet.'}else d='Alla har samma poäng. Inget att byta.';break;
-  case 'JACKPOT':st.sc[rand]+=3;d=N(rand)+' vann på enarmade björnen. +3 poäng.';break;
   case 'SNÖSTORM':st.mod='storm';d='Snöstorm. Nästa spel ser du knappt något.';break;
   case 'MINIFORMAT':st.mod='tiny';d='Nästa spel krymper. Ta fram glasögonen.';break;
-  case 'TOTALKAOS':st.mod='flip';st.dbl=true;st.ammo=6;d='Upp och ner, dubbla poäng och sex snöbollar var.';break;
-  case 'LIFTSTOPP':st.ids.forEach(id=>{if(id!==last)st.sc[id]=Math.max(0,st.sc[id]-1)});d='Liften står still. Alla utom '+N(last)+' tappar 1 poäng.';break;
-  case 'STUGFRID':st.ids.forEach(id=>st.pr[id]=r2(Math.max(0,st.pr[id]-0.3)));d='Alla äter korv med bröd. −0,3 ‰ på hela gänget.';break;
-  case 'BASTUOLYCKA':st.pr[rand]=r2(st.pr[rand]+0.6);d=N(rand)+' somnade i bastun. +0,6 ‰.';break;
+  case 'TOTALKAOS':st.mod='chaos';st.ammo=6;d='Upp och ner, fyllesvaj och sex snöbollar var.';break;
+  case 'BYT PLATS':d='Alla byter plats med personen till vänster. På riktigt. Nu.';break;
+  case 'VATTENPAUS':d='Alla dricker ett glas vatten innan nästa spel. Mamma Björnrike är stolt.';break;
+  case 'VINNAREN DRICKER':d=N(lead)+' leder och tar en klunk för att jämna ut.';break;
+  case 'PEKLEKEN':d='På tre pekar alla på den som somnar först i kväll. Flest pekningar tar en klunk.';break;
+  case 'HEMLIGHETEN':d=N(rand)+' berättar något ingen i gänget vet. Annars: en klunk.';break;
  }
  st.wh={i,d,rot:Math.random()};st.ph='wheel';pushState(st);
 }
+function _unused(){}
 function nextGame(){const st=Object.assign({},S.state);if(st.n<TOTAL-1){let pool=GAMES.map((g,i)=>i).filter(i=>!st.used.includes(i));if(!pool.length)pool=GAMES.map((g,i)=>i);const gi=pool[Math.floor(Math.random()*pool.length)];st.gi=gi;st.used=st.used.concat([gi]);st.n++;st.ph='intro';st.res=null;st.ex=null}else st.ph='final';pushState(st)}
 function newEvening(){if(S.mode==='local'){S.bots={};S.sbN=0;S.botThrows={};startEvening();return}pushState({ph:'lobby',r:0})}
 
@@ -771,7 +761,7 @@ const scr=()=>document.getElementById('screen');
 function renderTop(){
  const tr=document.getElementById('topRight');tr.replaceChildren();if(!S.mode){tr.append(...soundBtns());return}
  tr.append(S.mode==='room'?el('span',{class:'chip',text:'Rum '+S.code}):el('span',{class:'chip dark',text:'Testläge'}));
- const st=S.state;if(st&&st.pr&&st.pr[myId()]!=null)tr.append(el('span',{class:'chip '+(st.pr[myId()]>1.5?'hot':'dark'),text:permil(st.pr[myId()])}));
+ const st=S.state;if(st&&st.sc&&st.sc[myId()]!=null)tr.append(el('span',{class:'chip dark',text:st.sc[myId()]+' p'}));
  tr.append(...soundBtns(),el('button',{class:'linkbtn',onclick:leave,text:'Lämna'}));
 }
 function render(joinFailed){
@@ -801,9 +791,9 @@ function refreshLive(){
 function hostOnly(btn,txt){return S.isHost?btn:el('p',{class:'note',text:txt||'Värden styr kvällen. Vänta på nästa steg.'})}
 function meter(v){return el('span',{class:'meter'},[el('span',{class:'bar'},el('i',{style:'width:'+Math.min(100,(v||0)/4*100)+'%'})),permil(v)])}
 function standings(){
- const st=S.state;const ids=st.ids.slice().sort((a,b)=>(st.sc[b]-st.sc[a])||(st.pr[a]-st.pr[b]));
+ const st=S.state;const ids=st.ids.slice().sort((a,b)=>(st.sc[b]-st.sc[a])||nameOf(a).localeCompare(nameOf(b)));
  return el('ul',{class:'players'},ids.map(id=>el('li',{class:'pl'},[dot(id),el('span',{class:'nm'},[nameOf(id),id===myId()?el('span',{class:'you',text:'du'}):null]),
-  el('span',{class:'row',style:'gap:12px;align-items:center'},[meter(st.pr[id]),el('span',{class:'pts',text:String(st.sc[id])})])])));
+  el('span',{class:'pts',text:String(st.sc[id])})])));
 }
 
 function renderMenu(s){
@@ -837,7 +827,7 @@ function renderLobby(s){
   el('section',{class:'panel stack'},[el('div',{class:'label',text:'I stugan nu'}),ul]),
   hostOnly(el('button',{class:'btn',id:'startBtn',onclick:startEvening,disabled:S.mode==='room'&&roster().length<2,text:'Starta kvällen'}),'Väntar på att värden startar kvällen.'));
 }
-function modText(st){const m=[];if(st.mod==='flip')m.push('Upp och ner');if(st.mod==='mirror')m.push('Spegelvänt');if(st.mod==='blur')m.push('Dimma');if(st.mod==='dark')m.push('Strömavbrott');if(st.mod==='quake')m.push('Jordbävning');if(st.mod==='storm')m.push('Snöstorm');if(st.mod==='tiny')m.push('Miniformat');if(st.dbl)m.push('Dubbla poäng');if(st.ammo>3)m.push(st.ammo+' snöbollar');return m}
+function modText(st){const m=[];if(st.mod==='flip')m.push('Upp och ner');if(st.mod==='mirror')m.push('Spegelvänt');if(st.mod==='blur')m.push('Dimma');if(st.mod==='dark')m.push('Strömavbrott');if(st.mod==='quake')m.push('Jordbävning');if(st.mod==='storm')m.push('Snöstorm');if(st.mod==='tiny')m.push('Miniformat');if(st.mod==='drunk')m.push('Fylla');if(st.mod==='chaos')m.push('Totalkaos');if(st.ammo>3)m.push(st.ammo+' snöbollar');return m}
 function renderIntro(s){
  const st=S.state,G=GAMES[st.gi];const mods=modText(st);
  const title=el('h1',{class:'display tilt',text:'???'});
@@ -905,8 +895,8 @@ function renderResult(s){
   roast=el('div',{class:'stack',style:'gap:6px'},[el('p',{class:'roast',text:fill(pickLine(WIN,st.seed,1),nameOf(w))}),l?el('p',{class:'roast',style:'color:var(--falu)',text:fill(pickLine(LOSE,st.seed,2),nameOf(l))}):null]);
  } else {
   res.q.forEach(o=>{body.append(el('div',{class:'stack',style:'gap:6px'},[el('p',{style:'margin:0;font-weight:700',text:PROMPTS[o.p]}),
-   el('div',{class:'stack',style:'gap:6px'},o.top.length?o.top.map(id=>el('div',{class:'res-row',style:'grid-template-columns:auto 1fr auto auto'},[dot(id),el('span',{class:'nm',text:nameOf(id)}),el('span',{class:'val',text:o.c[id]+' röst'+(o.c[id]>1?'er':'')}),el('span',{class:'tag',text:'+0,3 ‰'})])):[el('span',{class:'note',text:'Inga röster'})])]))});
-  body.append(el('div',{class:'label',text:'Poäng för att läsa gänget'}),el('div',{class:'wait'},st.ids.map(id=>el('span',{class:'done',text:nameOf(id)+' +'+res.pts[id]}))));
+   el('div',{class:'stack',style:'gap:6px'},o.top.length?o.top.map(id=>el('div',{class:'res-row',style:'grid-template-columns:auto 1fr auto auto'},[dot(id),el('span',{class:'nm',text:nameOf(id)}),el('span',{class:'val',text:o.c[id]+' röst'+(o.c[id]>1?'er':'')}),el('span',{class:'tag',text:'Klunk!'})])):[el('span',{class:'note',text:'Inga röster'})])]))});
+  body.append(el('div',{class:'label',text:'Poäng för att läsa gänget (3 · 2 · 1)'}),el('div',{class:'wait'},st.ids.map(id=>el('span',{class:(res.losers||[]).includes(id)?'dead':'done',text:nameOf(id)+' '+(res.vals[id]||0)+' rätt · +'+res.pts[id]}))));
   const most={};res.q.forEach(o=>o.top.forEach(id=>most[id]=(most[id]||0)+1));const top=Object.keys(most).sort((a,b)=>most[b]-most[a])[0];
   if(top)roast=el('p',{class:'roast',style:'color:var(--falu)',text:'Gänget har talat: '+nameOf(top)+' är ett problem.'});
  }
@@ -934,7 +924,7 @@ function renderWheel(s){
   if(p<1)raf=requestAnimationFrame(f);else{out.hidden=false;btn.hidden=false;fitAll();SFX.horn();shakeApp();confetti(80)}}
  raf=requestAnimationFrame(f);S.cleanup=()=>cancelAnimationFrame(raf);
 }
-function finalOrder(st){return st.ids.slice().sort((a,b)=>(st.sc[b]-st.sc[a])||(st.pr[a]-st.pr[b]))}
+function finalOrder(st){return st.ids.slice().sort((a,b)=>(st.sc[b]-st.sc[a])||((st.kl||{})[a]-(st.kl||{})[b]))}
 function giveOf(win){const st=S.state;
  if(win===myId()||S.mode==='local')return S.give&&S.give.v===st.v?S.give.to:null;
  const p=S.peers.find(q=>q.peer===win);const g=p&&p.presence&&p.presence.give;return g&&g.v===st.v&&st.ids.includes(g.to)?g.to:null}
@@ -947,12 +937,12 @@ function fillGive(box){const st=S.state;if(!st||st.ph!=='final')return;const win
 function giveShot(id){S.give={v:S.state.v,to:id};S.giveShown=S.state.v+':'+id;if(S.mode==='room'&&S.room)S.room.presence({give:S.give}).catch(()=>{});SFX.horn();confetti(60);toast(nameOf(id)+' får en shot!');const gb=document.getElementById('giveBox');if(gb)fillGive(gb)}
 function renderFinal(s){
  const st=S.state;const ids=st.ids.slice();
- const bySc=finalOrder(st);const byPr=ids.slice().sort((a,b)=>st.pr[b]-st.pr[a]);
+ const bySc=finalOrder(st);const kl=st.kl||{};const byKl=ids.slice().sort((a,b)=>(kl[b]||0)-(kl[a]||0));
  const bySb=ids.slice().sort((a,b)=>throwsOf(b)-throwsOf(a));const win=bySc[0],lose=bySc[bySc.length-1];
  const t=(lab,id,txt)=>el('div',{class:'title-card'},[el('div',{class:'label',text:lab}),el('div',{class:'who'},[dot(id),el('span',{class:'nm',text:nameOf(id)})]),el('p',{class:'note',text:txt})]);
  const giveBox=el('div',{class:'stack',id:'giveBox'});
  let place=0;const table=el('ol',{class:'players'},bySc.map((id,i)=>{if(i===0||st.sc[id]!==st.sc[bySc[i-1]])place=i+1;
-  return el('li',{class:'res-row'+(i===0?' first':''),style:'grid-template-columns:28px auto 1fr auto auto'},[el('span',{class:'place',text:String(place)}),dot(id),el('span',{class:'nm'},[nameOf(id),id===myId()?el('span',{class:'you',text:'du'}):null]),meter(st.pr[id]),el('span',{class:'pts',text:String(st.sc[id])})])}));
+  return el('li',{class:'res-row'+(i===0?' first':''),style:'grid-template-columns:28px auto 1fr auto auto'},[el('span',{class:'place',text:String(place)}),dot(id),el('span',{class:'nm'},[nameOf(id),id===myId()?el('span',{class:'you',text:'du'}):null]),el('span',{class:'val',text:(kl[id]||0)+' klunkar'}),el('span',{class:'pts',text:String(st.sc[id])})])}));
  const podium=el('div',{class:'podium'},[1,0,2].filter(k=>bySc[k]!=null).map(k=>el('div',{class:'pod pod'+(k+1)},[dot(bySc[k]),el('span',{class:'nm',text:nameOf(bySc[k])}),el('span',{class:'pts',text:String(st.sc[bySc[k]])}),el('span',{class:'step',text:String(k+1)})])));
  s.append(el('section',{class:'ticket hot stack'},[el('div',{class:'label',style:'color:rgba(26,6,18,.7)',text:'03:15 · Stugan släcker'}),el('h1',{class:'display tilt',text:'Kvällens legend'}),
    el('div',{class:'h2',style:'display:flex;align-items:center;gap:10px;min-width:0;margin-top:6px'},[dot(win),el('span',{class:'nm',text:nameOf(win)})]),
@@ -960,9 +950,9 @@ function renderFinal(s){
   podium,
   el('section',{class:'panel stack'},[el('div',{class:'label',text:'Sluttabell'}),table]),
   el('div',{class:'titles'},[
-   t('Promillekungen',byPr[0],permil(st.pr[byPr[0]])+'. Hittar inte stugan. Hittar inte sina byxor.'),
+   (kl[byKl[0]]||0)>0?t('Klunkkungen',byKl[0],(kl[byKl[0]]||0)+' straffklunkar. Hittar inte stugan. Hittar inte sina byxor.'):null,
    throwsOf(bySb[0])>0?t('Snöbollsterroristen',bySb[0],throwsOf(bySb[0])+' snöbollar kastade. Ingen är säker.'):null,
-   t('Först i liftkön imorgon',byPr[byPr.length-1],'Bara '+permil(st.pr[byPr[byPr.length-1]])+'. Tråkmåns.')]),
+   t('Först i liftkön imorgon',byKl[byKl.length-1],'Bara '+(kl[byKl[byKl.length-1]]||0)+' straffklunkar. Tråkmåns.')]),
   el('section',{class:'panel stack'},[el('div',{class:'label',text:'Vinnarens shot · '+nameOf(win)+' väljer'}),giveBox]),
   el('section',{class:'ticket stack'},[el('div',{class:'label',text:'Straffshot · sist i tabellen'}),
    el('div',{class:'h2',style:'display:flex;align-items:center;gap:10px;min-width:0'},[dot(lose),el('span',{class:'nm',text:nameOf(lose)})]),
@@ -2486,31 +2476,6 @@ PLAY.gard=function(box,seed,pr,done){
  return()=>{ended=true;cancelAnimationFrame(raf);stop()};
 };
 
-/* --- Gissa promillen --- */
-PLAY.gissa=function(box,seed,pr,done,st){
- const R=rng(seed),ids=st.ids.slice();for(let i=ids.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
- const who=[0,1,2].map(i=>ids[i%ids.length]);const N=3;
- let k=0,guess=1.0,res=null,score=0,ended=false;
- const cv=el('canvas',{class:'play scene-cv','aria-label':'Gissa promillen'});
- const nameEl=el('div',{class:'h2',style:'text-align:center'}),val=el('div',{class:'pot'}),sl=el('input',{type:'range',min:'0',max:'40',step:'1',value:'10',class:'pslider','aria-label':'Gissning i promille'});
- const kEl=el('b',{text:'1/'+N}),sEl=el('b',{text:'0'}),fl=el('div',{class:'flash',text:'Titta hur personen svajar och gissa promillen.'});
- const btn=el('button',{class:'btn hot',text:'Gissa'});
- box.append(hud(['Person',kEl],['Poäng',sEl]),cv,nameEl,val,sl,fl,btn);
- const fmt=v=>v.toFixed(1).replace('.',',')+' ‰';
- function setup(){res=null;guess=1.0;sl.value='10';val.textContent=fmt(guess);const id=who[k];nameEl.textContent=id===myId()?'Du själv':nameOf(id);kEl.textContent=(k+1)+'/'+N;btn.textContent='Gissa';btn.disabled=false;fl.textContent='Hur full är '+(id===myId()?'du':nameOf(id))+'?';fl.className='flash'}
- sl.addEventListener('input',()=>{if(res)return;guess=Number(sl.value)/10;val.textContent=fmt(guess)});
- btn.addEventListener('click',()=>{if(ended)return;if(!res){const real=st.pr[who[k]]||0;const p=Math.max(0,Math.round(10-Math.abs(guess-real)*10));score+=p;sEl.textContent=String(score);res={real,p};
-   fl.textContent='Svar: '+fmt(real)+'. '+(p>=9?'Exakt! +':p>=5?'Nära. +':'Inte ens nära. +')+p;fl.className='flash '+(p>=5?'good':'bad');p>=5?SFX.blip(900,0.12,0.15,'square',1400):SFX.fail();btn.textContent=k<N-1?'Nästa':'Klar'}
-  else{k++;if(k>=N){ended=true;btn.disabled=true;setTimeout(()=>done(score),300)}else setup()}});
- setup();
- const stop=sceneLoop(cv,(c,W,H,tt)=>{const id=who[Math.min(k,N-1)],real=st.pr[id]||0;
-  c.fillStyle='#1c1230';c.fillRect(0,0,W,H);c.fillStyle='#3b2414';c.fillRect(0,H*0.88,W,H*0.12);
-  const sc=Math.min(1.2,H/150),sw=Math.sin(tt*(1.2+real*0.4))*real*0.12+Math.sin(tt*3.1)*real*0.04;
-  guy(c,{x:W/2,y:H*0.9,s:sc,col:colorOf(id),lean:sw,flush:Math.min(0.8,real*0.2),eyes:real>2.4?'dizzy':real>1.4?'closed':'o',mouth:real>2?'o':real>1?'grin':'smile',aL:0.3+Math.sin(tt*2)*real*0.2,aR:-0.2+Math.cos(tt*2)*real*0.2,tilt:Math.sin(tt*1.7)*real*0.08});
-  if(res)bubble(c,W/2+10,H*0.9-110*sc,res.real>2?'Jag är HELT nykter':res.real>1?'Bara lite glad':'Har knappt druckit',W);
- });
- return()=>{ended=true;stop()};
-};
 
 
 /* ================= SENSORS ================= */
@@ -2542,7 +2507,7 @@ PLAY.alko=function(box,seed,pr,done){
  const stop=sceneLoop(cv,(c,W,H,tt,dt)=>{
   if(phase==='go'&&!ended){const raw=manual?(holding?0.09+Math.random()*0.02:0):mic.level();lvl+=(raw-lvl)*Math.min(1,dt*12);const s=Math.max(0,(lvl-0.02)/0.14);if(s>0.02||t>0)t+=dt;vol+=Math.min(1,s)*dt*20;
    vEl.textContent=String(Math.round(vol));tEl.textContent=Math.max(0,6-t).toFixed(1).replace('.',',')+' s';
-   if(t>=6){ended=true;const sc=Math.round(vol);const reading=(pr+vol/100*0.6).toFixed(2).replace('.',',');fl.textContent='Mätaren visar '+reading+' ‰. '+(sc>70?'Lungor av stål!':sc>35?'Godkänt blås.':'Det där var en suck.');fl.className='flash '+(sc>35?'good':'bad');SFX.horn();if(mic)mic.stop();setTimeout(()=>done(sc),1200)}}
+   if(t>=6){ended=true;const sc=Math.round(vol);fl.textContent=sc+' i lungkraft. '+(sc>70?'Lungor av stål!':sc>35?'Godkänt blås.':'Det där var en suck.');fl.className='flash '+(sc>35?'good':'bad');SFX.horn();if(mic)mic.stop();setTimeout(()=>done(sc),1200)}}
   const s=Math.max(0,Math.min(1,(lvl-0.02)/0.14));
   c.fillStyle='#0b1220';c.fillRect(0,0,W,H);c.fillStyle=Math.floor(tt*4)%2?'rgba(63,127,227,.18)':'rgba(210,65,45,.18)';c.fillRect(0,0,W,H);
   const gy=H*0.95,sc=Math.min(1.4,H/170);
